@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Zamani2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblClasses">
+          <Key>
+            <PropertyRef Name="ClassId" />
+          </Key>
+          <Property Name="ClassId" Type="int" Nullable="false" />
+          <Property Name="ClassName" Type="nvarchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="tblPayments">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="int" Nullable="false" />
+          <Property Name="StdId" Type="int" />
+          <Property Name="Price" Type="int" />
+          <Property Name="Tarikh" Type="char" MaxLength="10" />
+          <Property Name="IsDone" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblStudents">
+          <Key>
+            <PropertyRef Name="StdId" />
+          </Key>
+          <Property Name="StdId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodeMeli" Type="char" MaxLength="10" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TarikhTavalod" Type="char" MaxLength="10" />
+          <Property Name="FatherName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MotherName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ClassId" Type="int" />
+        </EntityType>
+        <Association Name="FK_tblPayments_tblStudents">
+          <End Role="tblStudents" Type="Self.tblStudents" Multiplicity="0..1" />
+          <End Role="tblPayments" Type="Self.tblPayments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStudents">
+              <PropertyRef Name="StdId" />
+            </Principal>
+            <Dependent Role="tblPayments">
+              <PropertyRef Name="StdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblStudents_tblClasses">
+          <End Role="tblClasses" Type="Self.tblClasses" Multiplicity="0..1" />
+          <End Role="tblStudents" Type="Self.tblStudents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblClasses">
+              <PropertyRef Name="ClassId" />
+            </Principal>
+            <Dependent Role="tblStudents">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Zamani2ModelStoreContainer">
+          <EntitySet Name="tblClasses" EntityType="Self.tblClasses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPayments" EntityType="Self.tblPayments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblStudents" EntityType="Self.tblStudents" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblPayments_tblStudents" Association="Self.FK_tblPayments_tblStudents">
+            <End Role="tblStudents" EntitySet="tblStudents" />
+            <End Role="tblPayments" EntitySet="tblPayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblStudents_tblClasses" Association="Self.FK_tblStudents_tblClasses">
+            <End Role="tblClasses" EntitySet="tblClasses" />
+            <End Role="tblStudents" EntitySet="tblStudents" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Zamani2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblClasses">
+          <Key>
+            <PropertyRef Name="ClassId" />
+          </Key>
+          <Property Name="ClassId" Type="Int32" Nullable="false" />
+          <Property Name="ClassName" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblStudents" Relationship="Self.FK_tblStudents_tblClasses" FromRole="tblClasses" ToRole="tblStudents" />
+        </EntityType>
+        <EntityType Name="tblPayments">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="Int32" Nullable="false" />
+          <Property Name="StdId" Type="Int32" />
+          <Property Name="Price" Type="Int32" />
+          <Property Name="Tarikh" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="IsDone" Type="Boolean" />
+          <NavigationProperty Name="tblStudents" Relationship="Self.FK_tblPayments_tblStudents" FromRole="tblPayments" ToRole="tblStudents" />
+        </EntityType>
+        <EntityType Name="tblStudents">
+          <Key>
+            <PropertyRef Name="StdId" />
+          </Key>
+          <Property Name="StdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodeMeli" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TarikhTavalod" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="FatherName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MotherName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClassId" Type="Int32" />
+          <NavigationProperty Name="tblClasses" Relationship="Self.FK_tblStudents_tblClasses" FromRole="tblStudents" ToRole="tblClasses" />
+          <NavigationProperty Name="tblPayments" Relationship="Self.FK_tblPayments_tblStudents" FromRole="tblStudents" ToRole="tblPayments" />
+        </EntityType>
+        <Association Name="FK_tblStudents_tblClasses">
+          <End Role="tblClasses" Type="Self.tblClasses" Multiplicity="0..1" />
+          <End Role="tblStudents" Type="Self.tblStudents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblClasses">
+              <PropertyRef Name="ClassId" />
+            </Principal>
+            <Dependent Role="tblStudents">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPayments_tblStudents">
+          <End Role="tblStudents" Type="Self.tblStudents" Multiplicity="0..1" />
+          <End Role="tblPayments" Type="Self.tblPayments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStudents">
+              <PropertyRef Name="StdId" />
+            </Principal>
+            <Dependent Role="tblPayments">
+              <PropertyRef Name="StdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ZamaniEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblClasses" EntityType="Self.tblClasses" />
+          <EntitySet Name="tblPayments" EntityType="Self.tblPayments" />
+          <EntitySet Name="tblStudents" EntityType="Self.tblStudents" />
+          <AssociationSet Name="FK_tblStudents_tblClasses" Association="Self.FK_tblStudents_tblClasses">
+            <End Role="tblClasses" EntitySet="tblClasses" />
+            <End Role="tblStudents" EntitySet="tblStudents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPayments_tblStudents" Association="Self.FK_tblPayments_tblStudents">
+            <End Role="tblStudents" EntitySet="tblStudents" />
+            <End Role="tblPayments" EntitySet="tblPayments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Zamani2ModelStoreContainer" CdmEntityContainer="ZamaniEntities">
+          <EntitySetMapping Name="tblClasses">
+            <EntityTypeMapping TypeName="Zamani2Model.tblClasses">
+              <MappingFragment StoreEntitySet="tblClasses">
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPayments">
+            <EntityTypeMapping TypeName="Zamani2Model.tblPayments">
+              <MappingFragment StoreEntitySet="tblPayments">
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="StdId" ColumnName="StdId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Tarikh" ColumnName="Tarikh" />
+                <ScalarProperty Name="IsDone" ColumnName="IsDone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStudents">
+            <EntityTypeMapping TypeName="Zamani2Model.tblStudents">
+              <MappingFragment StoreEntitySet="tblStudents">
+                <ScalarProperty Name="StdId" ColumnName="StdId" />
+                <ScalarProperty Name="CodeMeli" ColumnName="CodeMeli" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="TarikhTavalod" ColumnName="TarikhTavalod" />
+                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+                <ScalarProperty Name="MotherName" ColumnName="MotherName" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
